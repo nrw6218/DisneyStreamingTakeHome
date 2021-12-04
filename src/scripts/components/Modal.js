@@ -3,7 +3,7 @@ export class Modal {
     this.modal = document.getElementById("modal");
     this.modal.className = "hidden";
     this.video = document.getElementById("modalVideo");
-    this.hero = document.getElementById("modalHero");
+    this.hero = document.getElementById("modalHero").getElementsByTagName('img')[0];;
     this.title = document.getElementById("modalTitle");
 
     this.isOpen = false;
@@ -19,5 +19,7 @@ export class Modal {
   close = () => {
     this.isOpen = false;
     this.modal.className = "hidden";
+    this.hero.src = "";
+    this.title.innerHTML = "";
   };
 }

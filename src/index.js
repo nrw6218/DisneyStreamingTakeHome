@@ -1,34 +1,41 @@
-import axios from "axios";
-
-import { Shelf } from "./components/Shelf";
-import { Card } from "./components/Card";
-import { Banner } from "./components/Banner";
-import { Modal } from "./components/Modal";
+import { Shelf } from "./scripts/components/Shelf";
+import { Card } from "./scripts/components/Card";
+import { Banner } from "./scripts/components/Banner";
+import { Modal } from "./scripts/components/Modal";
+import { fetchHomeData, moveToIndex } from "./scripts/utils";
 
 import "./styles.css";
 
-// CLEANUP: Comments and documentation
-// CLEANUP: Hide titles and put placeholders in for refid collections
-
+// TO-DO: Banner image flickering
+// TO-DO: Modal image lag/showing old image
+// TO-DO: Modal movement/selection
+// TO-DO: Review how I'm accessing API data
+// TO-DO: Update README with final instructions
+// TO-DO: Final deployment
 // BONUS: mouse sparkle trail effect or other Disney-inspired feature
 
-const baseUrl = "https://cd-static.bamgrid.com/dp-117731241344";
 let pageContent = [];
 let rowIndex = 0;
 let banner;
 let modal;
 
 /**
- * Makes an axios call to the Disney Streaming API to retrieve homepage data.
- * @param {string} path The extension of the base url path.
- * @returns A promise of the response data.
+ * Populates pageContent at the given index with the provided data
+ * and injects a new shelf into the DOM
+ * @param {Object} content A single set item from the api response
+ * @param {number} index The index of pageContent to save the content to
  */
-const fetchHomeData = async (path) => {
-  return axios.get(baseUrl + path).then(response => {
-    return response.data;
-  }).catch(e => {
-    console.error(e);
-    return undefined;
+const populateShelf = (content, index) => {
+  if (!pageContent[index]) {
+    pageContent[index] = new Shelf(content);
+  }
+  
+  if (pageContent[index].refId && rowIndex + 1 < index) return;
+
+  pageContent[index].buildShelf();
+
+  content[Object.keys(content)[0]]?.items?.forEach(item => {
+    pageContent[index].addCard(new Card(item));
   });
 };
 
@@ -45,6 +52,11 @@ const loadNewShelf = async (index) => {
   });
 };
 
+/**
+ * Handles user interactions based on 
+ * the given event key
+ * @param {KeyboardEvent} event The keyboard event 
+ */
 const handleInput = async (event) => {
   event.preventDefault();
   pageContent[rowIndex].getActiveCard().element.blur();
@@ -76,50 +88,15 @@ const handleInput = async (event) => {
     case "Enter":
       if (!modal.isOpen) modal.open(pageContent[rowIndex].getActiveCard());
       break;
+    case "Escape":
+    case "Delete":
     case "Backspace":
-      console.log("BACK");
       if (modal.isOpen) modal.close();
       break;
+    default:
+      break;
   }
-  moveToIndex();
-};
-
-/**
- * Scrolls the page to the current index
- * and focuses on the resulting card
- */
-const moveToIndex = () => {
-  document.getElementById("root").scrollTo({
-    top: pageContent[rowIndex].element.parentNode.offsetTop,
-    behavior: 'smooth'
-  });
-  pageContent[rowIndex].element.scrollTo({
-    left: (pageContent[rowIndex].getActiveCard().element.parentNode.offsetLeft - pageContent[rowIndex].element.offsetLeft),
-    behavior: 'smooth'
-  });
-  pageContent[rowIndex].getActiveCard().element.focus({preventScroll: true});
-  banner.setContent(pageContent[rowIndex].getActiveCard());
-};
-
-/**
- * Populates pageContent at the given index with the provided data
- * and injects a new shelf into the DOM
- * @param {Object} content A single set item from the api response
- * @param {number} index The index of pageContent to save the content to
- */
-const populateShelf = (content, index) => {
-  if (!pageContent[index]) {
-    pageContent[index] = new Shelf(content);
-  }
-  
-  if (pageContent[index].refId && rowIndex + 1 < index) return;
-
-  pageContent[index].buildShelf();
-
-  // TO-DO: Think through a better way to handle this (I hate hunting for the key name)
-  content[Object.keys(content)[0]]?.items?.forEach(item => {
-    pageContent[index].addCard(new Card(item));
-  });
+  moveToIndex(pageContent, banner, rowIndex);
 };
 
 /**
@@ -142,7 +119,7 @@ const start = (data) => {
   modal = new Modal();
 
   // Highlight the indexed card
-  moveToIndex();
+  moveToIndex(pageContent, banner, rowIndex);
 };
 
 fetchHomeData("/home.json").then(data => {
