@@ -8,11 +8,11 @@ To run the application, move to the project directory in the terminal and run `n
 ## Available Commands
 ### `"npm run build": "webpack"`,
 
-Bundles all javascript modules together and puts the bundled js file in teh `/dist` directory.
+Creates a production-ready build of the application.
 
-### `"npm run watch": "webpack --watch"`,
+### `"npm run start": "webpack --watch"`,
 
-Runs webpack in watch mode so `bundle.js` will update as you save changes to the project. Good for while actively developing.
+Creates a localhost server with live reloading of the app intended for development.
 
 ## Built With
 - JavaScript
