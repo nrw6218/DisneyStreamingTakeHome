@@ -1,7 +1,11 @@
+import axios from "axios";
+
 import { Shelf } from "./components/Shelf";
 import { Card } from "./components/Card";
 import { Banner } from "./components/Banner";
 import { Modal } from "./components/Modal";
+
+import "./styles.css";
 
 // CLEANUP: Comments and documentation
 // CLEANUP: Hide titles and put placeholders in for refid collections
