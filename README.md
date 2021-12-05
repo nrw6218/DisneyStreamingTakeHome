@@ -36,7 +36,7 @@ The `pageContent` array of `Shelf` objects could be updated to be a map with the
 Keeping track of ids and/or types of sets could also allow future enhancements such as specialized shelves of content based on the type (think the Collections set with special styles to emphasize collections more than a series or movie).
 
 ### Tech Stack
-To improve on the tech stack of this application I would bring in TypeScript to improve code management through strict typing. I would also consider bringing in a framework such as React to allow for more in-depth component-based architecture utilizing JSX. I would also introduce testing libraries (e.g. Cypress, Jest) and a minifier to shrink the client download size.
+To improve on the tech stack of this application I would bring in TypeScript to improve code management through strict typing. I would also consider bringing in a framework such as React to allow for more in-depth component-based architecture utilizing JSX. I would also introduce testing libraries (e.g. Cypress, Jest) and a minifier to shrink the client download size. Additionally, I would bring in the SASS preprocessor language to allow for better organization of styles.
 
 ## Author
 **Nik Whiteside**
