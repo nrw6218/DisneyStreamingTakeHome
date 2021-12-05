@@ -6,11 +6,9 @@ import { fetchHomeData, moveToIndex } from "./scripts/utils";
 
 import "./styles.css";
 
-// TO-DO: Banner image flickering
-// TO-DO: Modal image lag/showing old image
-// TO-DO: Modal movement/selection
+// TO-DO: Fix fade animation on banner images and modal
 // TO-DO: Review how I'm accessing API data
-// TO-DO: Update README with final instructions
+// TO-DO: Add section to README about potential enhancements
 // TO-DO: Final deployment
 // BONUS: mouse sparkle trail effect or other Disney-inspired feature
 
@@ -52,15 +50,9 @@ const loadNewShelf = async (index) => {
   });
 };
 
-/**
- * Handles user interactions based on 
- * the given event key
- * @param {KeyboardEvent} event The keyboard event 
- */
-const handleInput = async (event) => {
-  event.preventDefault();
-  pageContent[rowIndex].getActiveCard().element.blur();
-  switch (event.key) {
+const handleMenuInput = async (key) => {
+  pageContent[rowIndex].getActiveCard().element.id = undefined;
+  switch (key) {
     case "ArrowLeft":
       if (pageContent[rowIndex].index <= 0) {
         pageContent[rowIndex].index = pageContent[rowIndex].cards.length - 1;
@@ -85,6 +77,26 @@ const handleInput = async (event) => {
         await loadNewShelf(rowIndex);
       }
       break;
+    default:
+      break;
+  }
+  moveToIndex(pageContent, banner, rowIndex);
+}
+
+/**
+ * Handles user interactions based on 
+ * the given event key
+ * @param {KeyboardEvent} event The keyboard event 
+ */
+const handleInput = async (event) => {
+  event.preventDefault();
+  switch (event.key) {
+    case "ArrowLeft":
+    case "ArrowRight":
+    case "ArrowUp":
+    case "ArrowDown":
+      modal.isOpen ? await modal.handleInput(event.key) : handleMenuInput(event.key);
+      break;
     case "Enter":
       if (!modal.isOpen) modal.open(pageContent[rowIndex].getActiveCard());
       break;
@@ -96,7 +108,6 @@ const handleInput = async (event) => {
     default:
       break;
   }
-  moveToIndex(pageContent, banner, rowIndex);
 };
 
 /**

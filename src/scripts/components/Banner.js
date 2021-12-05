@@ -1,3 +1,5 @@
+import { preloadImage } from "../utils";
+
 /**
  * Represents the homepage banner.
  */
@@ -15,42 +17,48 @@ export class Banner {
    */
   setContent = (card) => {
     // #region Video
-    const videoError = () => {
-      this.video.className = "hidden";
-      this.hero.src = card.heroImg;
-      this.hero.classList.remove("hidden");
-    };
-    this.video.onerror = videoError;
+    if (card.videoUrl !== this.video.src) {
+      const videoError = () => {
+        this.hero.src = card.heroImg;
+        this.hero.alt = card.title;
+        this.hero.onload = () => {
+          this.hero.classList.remove("hidden");
+        }
+      };
+      this.video.onerror = videoError;
 
-    this.hero.className = "hidden";
-    this.video.className = "hidden";
-    if (card.videoUrl) {
-      this.video.classList.remove("hidden");
-      if (this.video.src !== card.videoUrl) {
-        this.video.src = card.videoUrl;
-        this.video.play();
+      this.hero.className = "hidden";
+      this.video.className = "hidden";
+      if (card.videoUrl) {
+        this.video.classList.remove("hidden");
+        if (this.video.src !== card.videoUrl) {
+          this.video.src = card.videoUrl;
+          this.video.play();
+        }
+      } else {
+        videoError();  
       }
-    } else {
-      videoError();  
     }
     // #endregion
 
     // #region Logo
-    const logoError = () => {
-      this.logo.className = "hidden";
-      this.title.innerText = card.title;
-      this.title.classList.remove("hidden");
-    };
-    this.logo.onerror = logoError;
+    if (card.titleUrl !== this.logo.src) {
+      const logoError = () => {
+        this.title.innerText = card.title;
+        this.title.classList.remove("hidden");
+      };
+      const logoSuccess = () => {
+        this.logo.alt = card.title;
+        this.logo.classList.remove("hidden");
+      };
 
-    this.logo.className = "hidden";
-    this.title.className = "hidden";
-    if (this.logo.src) {
-      this.logo.classList.remove("hidden");
-      this.logo.src = card.titleUrl;
-      this.logo.alt = card.title;
-    } else {
-      logoError();
+      this.logo.className = "hidden";
+      this.title.className = "hidden";
+      if (card.titleUrl) {
+        preloadImage(card.titleUrl, this.logo, logoSuccess, logoError);
+      } else {
+        logoError();
+      }
     }
     // #endregion
   }

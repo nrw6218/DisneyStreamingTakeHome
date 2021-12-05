@@ -2,14 +2,21 @@ import axios from "axios";
 
 /**
  * Preloads an image before sending it to DOM element
- * @param {*} url 
- * @param {*} id 
- * @param {*} errorCallback 
+ * @param {string} url The image src to apply to the element 
+ * @param {Element} element The img element to mutate
+ * @param {() => void} successCallback The function to call if the image loads 
+ * @param {() => void} errorCallback The function to call if the image fails to load
  */
-export const preloadImage = (url, id, errorCallback) => {
+export const preloadImage = (url, element, successCallback, errorCallback) => {
+  // Clear out element attributes
+  element.src = "";
+  element.alt = "";
+
+  // Set-up callback functions and attempt to load the image
   const tempImg = new Image();
   tempImg.onload = () => {
-    document.getElementById(id).src = url;
+    successCallback();
+    element.src = url;
   };
   tempImg.onerror = () => errorCallback();
   tempImg.src = url;
@@ -45,6 +52,6 @@ export const moveToIndex = (pageContent, banner, index) => {
     left: (pageContent[index].getActiveCard().element.parentNode.offsetLeft - pageContent[index].element.offsetLeft),
     behavior: 'smooth'
   });
-  pageContent[index].getActiveCard().element.focus({preventScroll: true});
+  pageContent[index].getActiveCard().element.id = "activeCard";
   banner.setContent(pageContent[index].getActiveCard());
 };

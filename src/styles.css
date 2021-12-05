@@ -1,6 +1,6 @@
 /* TO-DO: Should break out common colors/sizes/fonts/animations into global vars and separate files and leave comment about SCSS */
 /* TO-DO: Polish modal styles, fix ::after and add hover-able buttons */
-/* TO-DO: Fix up the transition fades for elements that don't work properly (modal, banner hero, banner logo) */
+/* TO-DO: Fix up the transition fades for elements that don't work properly (modal, banner hero) */
 @keyframes fadeIn {
   0% {opacity:0;}
   100% {opacity:1;}
@@ -31,7 +31,7 @@ body {
   background: black;
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: end;
 }
 
 #banner::after {
@@ -48,13 +48,14 @@ body {
 #bannerContent {
   position: relative;
   height: 100%;
-  width: 50%;
+  min-width: 50%;
 }
 
 #bannerHero, #banner video {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top right;
   animation: fadeIn 1.5s;
 }
 
@@ -71,12 +72,12 @@ body {
 
 #bannerLogo {
   position: relative;
-  margin-left: 10%;
   width: 30%;
   height: 20vh;
-  margin-top: 10vh;
+  margin: 10vh auto 0 auto;
   object-fit: contain;
   object-position: top;
+  animation: fadeIn 1s;
 }
 
 #bannerText {
@@ -87,10 +88,7 @@ body {
   top: 25vh;
   height: fit-content;
   transform: translateY(-50%);
-}
-
-img[alt]::after {
-  display: none;
+  animation: fadeIn 1s;
 }
 
 #root {
@@ -151,6 +149,7 @@ img[alt]::after {
   transform-style: preserve-3d;
   overflow: hidden;
   box-shadow: rgb(0 0 0 / 69%) 0px 26px 30px -10px, rgb(0 0 0 / 73%) 0px 16px 10px -10px;
+  transition: transform 0.5s;
 }
 
 .card h3 {
@@ -162,7 +161,7 @@ img[alt]::after {
   padding: 1vw;
 }
 
-.card:focus {
+#activeCard {
   outline: none;
   transform: scale(1.08);
   border: 2px solid white;
@@ -195,6 +194,7 @@ img[alt]::after {
 #modalHero img {
   width: 100%;
   height: auto;
+  animation: fadeIn 1.5s;
 }
 
 #modalHero::before {
@@ -221,4 +221,26 @@ img[alt]::after {
 
 .textContent {
   padding: 20px;
+}
+
+.textContent h1 {
+  margin-top: 0;
+}
+
+button {
+  font-size: 18px;
+  background-color: #020617;
+  border: none;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  transition: all 0.5s;
+  box-shadow: rgb(20 20 20 / 69%) 0px 26px 30px -10px, rgb(20 20 20 / 73%) 0px 16px 10px -10px;
+  margin-right: 10px;
+}
+
+button.active {
+  transform: scale(1.15);
+  outline: solid white 1px;
+  background-color: #1a1d29;
 }

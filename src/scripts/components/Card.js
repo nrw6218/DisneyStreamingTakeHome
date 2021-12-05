@@ -18,8 +18,4 @@ export class Card {
 
     this.element = undefined;
   }
-
-  onEnter = () => {
-    // Use this to open whatever modal exists
-  };
 }
