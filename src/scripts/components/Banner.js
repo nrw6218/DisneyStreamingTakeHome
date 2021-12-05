@@ -5,7 +5,7 @@ import { preloadImage } from "../utils";
  */
 export class Banner {
   constructor() {
-    this.video = document.getElementById("video");
+    this.video = document.getElementById("bannerVideo");
     this.hero = document.getElementById("bannerHero");
     this.logo = document.getElementById("bannerLogo");
     this.title = document.getElementById("bannerText");
@@ -17,7 +17,7 @@ export class Banner {
    */
   setContent = (card) => {
     // #region Video
-    if (card.videoUrl !== this.video.src) {
+    // if (card.videoUrl !== this.video.src) {
       const videoError = () => {
         this.hero.src = card.heroImg;
         this.hero.alt = card.title;
@@ -38,11 +38,11 @@ export class Banner {
       } else {
         videoError();  
       }
-    }
+    // }
     // #endregion
 
     // #region Logo
-    if (card.titleUrl !== this.logo.src) {
+    // if (card.titleUrl !== this.logo.src) {
       const logoError = () => {
         this.title.innerText = card.title;
         this.title.classList.remove("hidden");
@@ -59,7 +59,7 @@ export class Banner {
       } else {
         logoError();
       }
-    }
+    // }
     // #endregion
   }
 }

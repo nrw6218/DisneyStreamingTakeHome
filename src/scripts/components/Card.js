@@ -7,6 +7,7 @@ export class Card {
     this.title = Object.values(response?.text?.title?.full)[0].default?.content;
     this.contentId = response.contentId;
     this.seriesId = response.seriesId;
+    this.ratings = response.ratings?.map(rating => rating.value);
     this.videoUrl = response.videoArt.length > 0 && response.videoArt[0].mediaMetadata?.urls[0].url;
 
     const title = response?.image?.title_treatment ? response.image.title_treatment["1.78"] : undefined; 

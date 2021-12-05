@@ -6,17 +6,19 @@
     <title>Disney Streaming Take-Home</title>
   </head>
   <body>
+    <!-- Content Preview Modal -->
     <div id="banner">
       <img id="bannerLogo" src="" alt="bannerLogo" />
       <h1 id="bannerText"></h1>
       <div id="bannerContent">
         <img id="bannerHero" src="" alt="bannerHero" />
-        <video id="video" autoplay loop muted>
-          <source id="preview" src="" type="video/mp4">
+        <video id="bannerVideo" autoplay loop muted>
+          <source src="" type="video/mp4">
           Your browser does not support the video tag.
         </video>
       </div>
     </div>
+    <!-- Content Details Modal -->
     <div id="modal" class="hidden">
       <div class="modalContent">
         <div id="modalHero">
@@ -24,13 +26,14 @@
         </div>
         <div class="textContent">
           <h1 id="modalTitle"></h1>
-          <p id="modalDetails"></p>
+          <p id="modalRating"></p>
           <button>Play</button>
           <button>Details</button>
         </div>
       </div>
       <div class="modalOverlay"></div>
     </div>
+    <!-- Shelf Container -->
     <div id="root"></div>
   </body>
 </html>

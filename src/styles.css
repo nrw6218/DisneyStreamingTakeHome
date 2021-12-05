@@ -1,102 +1,42 @@
-/* TO-DO: Should break out common colors/sizes/fonts/animations into global vars and separate files and leave comment about SCSS */
-/* TO-DO: Polish modal styles, fix ::after and add hover-able buttons */
-/* TO-DO: Fix up the transition fades for elements that don't work properly (modal, banner hero) */
 @keyframes fadeIn {
-  0% {opacity:0;}
-  100% {opacity:1;}
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
+
+/* Variables */
+:root {
+  --color-black: #000;
+  --color-blue-gray: #1c2133;
+  --color-gray: #1a1d29;
+  --color-navy: #020617;
+  --color-white: #fff;
+}
+
+/* General */
 
 * {
   pointer-events: none;
 }
 
 body {
-  background-image: linear-gradient(45deg, #1a1d29, #020617);
-  background-repeat: no-repeat;
   background-attachment: fixed;
-  color: #fff;
-  font-family: 'Graphik','Helvetica','Arial',sans-serif;
-  width: 100vw;
+  background-image: linear-gradient(45deg, var(--color-gray), var(--color-navy));
+  background-repeat: no-repeat;
+  color: var(--color-white);
+  font-family: "Graphik","Helvetica","Arial",sans-serif;
   height: 100vh;
+  margin: 0;
   overflow: hidden;
   pointer-events: none;
-  margin: 0;
-}
-
-#banner {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 50vh;
-  background: black;
-  width: 100%;
-  display: flex;
-  justify-content: end;
-}
-
-#banner::after {
-  background-image: linear-gradient(to top, rgba(0,0,0,0), rgba(0,0,0,1));
-  content: " ";
-  height: 100px;
-  width: 100%;
-  display: block;
-  top: 50vh;
-  left: 0;
-  position: absolute;
-}
-
-#bannerContent {
-  position: relative;
-  height: 100%;
-  min-width: 50%;
-}
-
-#bannerHero, #banner video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top right;
-  animation: fadeIn 1.5s;
-}
-
-#bannerContent::after {    
-  background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1));
-  content: " ";
-  height: 100px;
-  width: 100%;
-  display: block;
-  top: calc(50vh - 100px);
-  right: 0;
-  position: absolute;
-}
-
-#bannerLogo {
-  position: relative;
-  width: 30%;
-  height: 20vh;
-  margin: 10vh auto 0 auto;
-  object-fit: contain;
-  object-position: top;
-  animation: fadeIn 1s;
-}
-
-#bannerText {
-  text-align: center;
-  position: relative;
-  width: 50%;
-  margin: 0;
-  top: 25vh;
-  height: fit-content;
-  transform: translateY(-50%);
-  animation: fadeIn 1s;
+  width: 100vw;
 }
 
 #root {
+  height: 65vh;
+  left: 0;
+  overflow: hidden;
   position: relative;
   top: 35vh;
-  left: 0;
-  height: 65vh;
-  overflow: hidden;
 }
 
 .hidden {
@@ -104,11 +44,83 @@ body {
   opacity: 0;
 }
 
-.shelf {
+/* Banner */
+
+#banner {
+  background: var(--color-black);
+  display: flex;
+  height: 50vh;
+  justify-content: end;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+#banner::after {
+  background-image: linear-gradient(to top, transparent 0%, var(--color-black) 100%);
+  content: " ";
+  display: block;
+  height: 100px;
+  left: 0;
+  position: absolute;
+  top: 50vh;
+  width: 100%;
+}
+
+#bannerContent {
+  height: 100%;
+  min-width: 50%;
   position: relative;
-  padding: 25px 20px 0 20px;
+}
+
+#bannerHero, #banner video {
+  animation: fadeIn 1.5s;
+  height: 100%;
+  object-fit: cover;
+  object-position: top right;
+  width: 100%;
+}
+
+#bannerContent::after {    
+  background-image: linear-gradient(to bottom, transparent 0%, var(--color-black) 100%);
+  content: " ";
+  display: block;
+  height: 200px;
+  position: absolute;
+  right: 0;
+  top: calc(50vh - 200px);
+  width: 100%;
+}
+
+#bannerLogo {
+  animation: fadeIn 1s;
+  height: 20vh;
+  margin: 10vh auto 0 auto;
+  object-fit: contain;
+  object-position: top;
+  position: relative;
+  width: 30%;
+}
+
+#bannerText {
+  animation: fadeIn 1s;
+  height: fit-content;
+  margin: 0;
+  position: relative;
+  text-align: center;
+  top: 25vh;
+  transform: translateY(-50%);
+  width: 50%;
+}
+
+/* Shelf */
+
+.shelf {
   animation: fadeIn 1.5s;
   overflow: hidden;
+  padding: 25px 20px 0 20px;
+  position: relative;
 }
 
 .shelf:last-of-type {
@@ -121,35 +133,37 @@ body {
 }
 
 .shelfItems {
+  align-items: stretch;
   display: flex;
   flex-direction: row;
-  align-items: stretch;
-  overflow-y: visible;
   overflow-x: scroll;
+  overflow-y: visible;
   padding-bottom: 30px;
-  -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
 }
 
 .shelfItems::-webkit-scrollbar {
   display: none;
 }
 
+/* Card */
+
 .card {
-  display: flex;
   align-items: center;
-  justify-content: center;
-  object-fit: cover;
-  transition: transform 0.2s;
-  width: 15vw;
-  min-width: 15vw;
+  background: radial-gradient(var(--color-blue-gray), var(--color-black));
   border-radius: 0.5vw;
-  height: 100%;
-  background: radial-gradient(#1c2133, black);
-  transform-style: preserve-3d;
-  overflow: hidden;
   box-shadow: rgb(0 0 0 / 69%) 0px 26px 30px -10px, rgb(0 0 0 / 73%) 0px 16px 10px -10px;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  min-width: 15vw;
+  object-fit: cover;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition: transform 0.2s;
   transition: transform 0.5s;
+  width: 15vw;
 }
 
 .card h3 {
@@ -157,66 +171,70 @@ body {
   white-space: nowrap;
 }
 
+.card img {
+  height: inherit;
+  transform: translateZ(-10px);
+  width: 100%;
+}
+
 .cardPadding {
   padding: 1vw;
 }
 
 #activeCard {
+  border: 2px solid var(--color-white);
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   outline: none;
   transform: scale(1.08);
-  border: 2px solid white;
-  -webkit-box-sizing:border-box;
-  -moz-box-sizing:border-box;
-  -ms-box-sizing:border-box;
-  box-sizing:border-box;
 }
 
-.card img {
-  width: 100%;
-  height: inherit;
-  transform: translateZ(-10px);
-}
+/* Modal */
 
 .modalContent {
-  position: fixed;
-  opacity: 1;
-  width: 550px;
+  background: var(--color-black);
+  border-radius: 10px;
+  box-shadow: rgb(0 0 0 / 69%) 0px 26px 30px -10px, rgb(0 0 0 / 73%) 0px 16px 10px -10px;
   left: 50%;
+  opacity: 1;
+  overflow: hidden;
+  position: fixed;
   top: 50%;
   transform: translate(-50%, -50%);
-  background: black;
-  z-index: 1010;
   transition: all 2s;
-  border-radius: 10px;
-  overflow: hidden;
+  width: 550px;
+  z-index: 1010;
 }
 
 #modalHero img {
-  width: 100%;
-  height: auto;
   animation: fadeIn 1.5s;
+  height: 250px;
+  object-fit: cover;
+  object-position: top;
+  width: 100%;
 }
 
-#modalHero::before {
+#modalHero::after {
+  background: linear-gradient(to bottom, transparent 0%, var(--color-black) 100%);
   content: " ";
-  display: block;
+  height: 255px;
   left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 50px;
-  background: purple;
-  /* background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1)); */
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .modalOverlay {
-  z-index: 1000;
-  background: black;
-  opacity: 0.7;
-  position: fixed;
-  width: 100%;
+  background: var(--color-black);
   height: 100%;
   left: 0;
+  opacity: 0.7;
+  position: fixed;
   top: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
 .textContent {
@@ -227,20 +245,22 @@ body {
   margin-top: 0;
 }
 
+/* Button */
+
 button {
-  font-size: 18px;
-  background-color: #020617;
-  border: none;
-  color: white;
-  padding: 10px;
+  background-color: var(--color-navy);
   border-radius: 5px;
-  transition: all 0.5s;
+  border: none;
   box-shadow: rgb(20 20 20 / 69%) 0px 26px 30px -10px, rgb(20 20 20 / 73%) 0px 16px 10px -10px;
+  color: white;
+  font-size: 18px;
   margin-right: 10px;
+  padding: 10px;
+  transition: all 0.5s;
 }
 
 button.active {
+  background-color: var(--color-gray);
+  outline: 2px solid var(--color-white);
   transform: scale(1.15);
-  outline: solid white 1px;
-  background-color: #1a1d29;
 }

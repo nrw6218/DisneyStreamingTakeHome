@@ -6,8 +6,6 @@ import { fetchHomeData, moveToIndex } from "./scripts/utils";
 
 import "./styles.css";
 
-// TO-DO: Fix fade animation on banner images and modal
-// TO-DO: Review how I'm accessing API data
 // TO-DO: Add section to README about potential enhancements
 // TO-DO: Final deployment
 // BONUS: mouse sparkle trail effect or other Disney-inspired feature
@@ -50,6 +48,10 @@ const loadNewShelf = async (index) => {
   });
 };
 
+/**
+ * Handles input on grid of content shelves/cards
+ * @param {string} key The string corresponding to the keyboard input
+ */
 const handleMenuInput = async (key) => {
   pageContent[rowIndex].getActiveCard().element.id = undefined;
   switch (key) {
@@ -115,6 +117,7 @@ const handleInput = async (event) => {
  * @param {Object} data The api response object to display on-screen
  */
 const start = (data) => {
+  console.log(data);
   // Hook up the input handler
   document.addEventListener('keydown', function (event) {
     handleInput(event);
