@@ -17,49 +17,45 @@ export class Banner {
    */
   setContent = (card) => {
     // #region Video
-    // if (card.videoUrl !== this.video.src) {
-      const videoError = () => {
-        this.hero.src = card.heroImg;
-        this.hero.alt = card.title;
-        this.hero.onload = () => {
-          this.hero.classList.remove("hidden");
-        }
-      };
-      this.video.onerror = videoError;
-
-      this.hero.className = "hidden";
-      this.video.className = "hidden";
-      if (card.videoUrl) {
-        this.video.classList.remove("hidden");
-        if (this.video.src !== card.videoUrl) {
-          this.video.src = card.videoUrl;
-          this.video.play();
-        }
-      } else {
-        videoError();  
+    const videoError = () => {
+      this.hero.src = card.heroImgUrl;
+      this.hero.alt = card.title;
+      this.hero.onload = () => {
+        this.hero.classList.remove("hidden");
       }
-    // }
+    };
+    this.video.onerror = videoError;
+
+    this.hero.className = "hidden";
+    this.video.className = "hidden";
+    if (card.videoUrl) {
+      this.video.classList.remove("hidden");
+      if (this.video.src !== card.videoUrl) {
+        this.video.src = card.videoUrl;
+        this.video.play();
+      }
+    } else {
+      videoError();  
+    }
     // #endregion
 
     // #region Logo
-    // if (card.titleUrl !== this.logo.src) {
-      const logoError = () => {
-        this.title.innerText = card.title;
-        this.title.classList.remove("hidden");
-      };
-      const logoSuccess = () => {
-        this.logo.alt = card.title;
-        this.logo.classList.remove("hidden");
-      };
+    const logoError = () => {
+      this.title.innerText = card.title;
+      this.title.classList.remove("hidden");
+    };
+    const logoSuccess = () => {
+      this.logo.alt = card.title;
+      this.logo.classList.remove("hidden");
+    };
 
-      this.logo.className = "hidden";
-      this.title.className = "hidden";
-      if (card.titleUrl) {
-        preloadImage(card.titleUrl, this.logo, logoSuccess, logoError);
-      } else {
-        logoError();
-      }
-    // }
+    this.logo.className = "hidden";
+    this.title.className = "hidden";
+    if (card.logoUrl) {
+      preloadImage(card.logoUrl, this.logo, logoSuccess, logoError);
+    } else {
+      logoError();
+    }
     // #endregion
   }
 }

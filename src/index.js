@@ -3,12 +3,7 @@ import { Card } from "./scripts/components/Card";
 import { Banner } from "./scripts/components/Banner";
 import { Modal } from "./scripts/components/Modal";
 import { fetchHomeData, moveToIndex } from "./scripts/utils";
-
 import "./styles.css";
-
-// TO-DO: Add section to README about potential enhancements
-// TO-DO: Final deployment
-// BONUS: mouse sparkle trail effect or other Disney-inspired feature
 
 let pageContent = [];
 let rowIndex = 0;
@@ -30,7 +25,7 @@ const populateShelf = (content, index) => {
 
   pageContent[index].buildShelf();
 
-  content[Object.keys(content)[0]]?.items?.forEach(item => {
+  Object.values(content)[0]?.items?.forEach(item => {
     pageContent[index].addCard(new Card(item));
   });
 };
@@ -53,36 +48,42 @@ const loadNewShelf = async (index) => {
  * @param {string} key The string corresponding to the keyboard input
  */
 const handleMenuInput = async (key) => {
-  pageContent[rowIndex].getActiveCard().element.id = undefined;
   switch (key) {
     case "ArrowLeft":
+      pageContent[rowIndex].getActiveCard().element.id = undefined;
       if (pageContent[rowIndex].index <= 0) {
         pageContent[rowIndex].index = pageContent[rowIndex].cards.length - 1;
       } else pageContent[rowIndex].index--;
+      moveToIndex(pageContent, banner, rowIndex);
       break;
     case "ArrowRight":
+      pageContent[rowIndex].getActiveCard().element.id = undefined;
       if (pageContent[rowIndex].index >= pageContent[rowIndex].cards.length - 1) {
         pageContent[rowIndex].index = 0;
       } else pageContent[rowIndex].index++;
+      moveToIndex(pageContent, banner, rowIndex);
       break;
     case "ArrowUp":
       if (rowIndex > 0) {
+        pageContent[rowIndex].getActiveCard().element.id = undefined;
         rowIndex--;
         // Attempt to load the next row
         await loadNewShelf(rowIndex);
+        moveToIndex(pageContent, banner, rowIndex);
       }
       break;
     case "ArrowDown":
       if (rowIndex < pageContent.length - 1) {
+        pageContent[rowIndex].getActiveCard().element.id = undefined;
         rowIndex++;
         // Attempt to load the next row
         await loadNewShelf(rowIndex);
+        moveToIndex(pageContent, banner, rowIndex);
       }
       break;
     default:
       break;
   }
-  moveToIndex(pageContent, banner, rowIndex);
 }
 
 /**
@@ -100,7 +101,7 @@ const handleInput = async (event) => {
       modal.isOpen ? await modal.handleInput(event.key) : handleMenuInput(event.key);
       break;
     case "Enter":
-      if (!modal.isOpen) modal.open(pageContent[rowIndex].getActiveCard());
+      modal.isOpen ? modal.handleInput(event.key) : modal.open(pageContent[rowIndex].getActiveCard());
       break;
     case "Escape":
     case "Delete":

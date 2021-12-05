@@ -1,3 +1,5 @@
+import { preloadImage } from "../utils";
+
 /**
  * Represents the scrollable shelf containing a set of cards.
  */
@@ -43,26 +45,29 @@ export class Shelf {
 
     this.cards.push(card);
     card.element = document.createElement("div");
-    card.element.setAttribute('tabindex', '0');
     card.element.className = "card";
 
     // Create fallback title text
     const title = document.createElement("h3");
-    title.id = "cardTitle";
-    title.innerText = card.title;
-    title.className = "hidden";
+    Object.assign(title, {
+      id: `title_${card?.title?.replace(/\s+/g, "")}`,
+      innerText: card.title,
+      className: "hidden",
+    });
 
     // Create image to display in card
     const poster = document.createElement("img");
     Object.assign(poster, {
       id: `${this.title.replace(/\s+/g, "")}_${card?.title?.replace(/\s+/g, "")}`,
       alt: card?.title,
-      src: card.cardUrl,
-      onerror: () => {
-        title.classList.remove("hidden");
-        poster.classList.add("hidden");
-      },
+      className: "hidden",
     });
+
+    preloadImage(card.cardImgUrl, poster, () => {
+      poster.classList.remove("hidden");
+    }, () => {
+      title.classList.remove("hidden");
+    })
 
     // Hook up the DOM elements
     card.element.appendChild(poster);
